@@ -28,6 +28,12 @@ onMounted(() => {
       title: 'AI 助手',
       draggable: true,
       resizable: true,
+      position: 'fixed',
+      dragOptions: {
+        handle: '.webchat-dialog-header',
+        cursor: 'move',
+        disabled: false
+      },
       aiChatOptions: {
         conversationOptions: {
           conversationStarters: [
@@ -37,12 +43,12 @@ onMounted(() => {
           ]
         },
         displayOptions: {
-          height: 850,
-          width: 700,
+          height: 600,
+          width: 400,
           minHeight: 400,
           minWidth: 300,
           maxHeight: 1200,
-          maxWidth: 1000,
+          maxWidth: 800,
         },
         personaOptions: {
           assistant: {
@@ -80,12 +86,28 @@ onMounted(() => {
   z-index: 100;
   bottom: 20px;
   right: 20px;
-  max-width: 700px;
+  max-width: 400px;
+  position: fixed !important;
+  cursor: move;
 }
 
 .webchat-bubble-tip {
   z-index: 99;
   bottom: 30px;
   right: 30px;
+  width: 60px;
+  height: 60px;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.webchat-dialog {
+  position: fixed !important;
+  cursor: move;
+}
+
+.webchat-dialog-header {
+  cursor: move;
+  user-select: none;
 }
 </style>

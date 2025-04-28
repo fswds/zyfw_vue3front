@@ -25,22 +25,6 @@
           placeholder="请选择结束时间">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="地址" prop="address">
-        <el-input
-          v-model="queryParams.address"
-          placeholder="请输入地址"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="所属组织" prop="organizationId">
-        <el-input
-          v-model="queryParams.organizationId"
-          placeholder="请输入所属组织"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="主持人姓名" prop="leaderName">
         <el-input
           v-model="queryParams.leaderName"
@@ -162,10 +146,7 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="地址" prop="address">
-          <el-input v-model="form.address" placeholder="请输入地址" />
-        </el-form-item>
-        <el-form-item label="所属组织" prop="organizationId">
-          <el-input v-model="form.organizationId" placeholder="请输入所属组织" />
+          <el-input v-model="form.address" type="textarea" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="主持人姓名" prop="leaderName">
           <el-input v-model="form.leaderName" placeholder="请输入主持人姓名" />
@@ -213,6 +194,24 @@ const data = reactive({
     leaderNumber: null
   },
   rules: {
+    name: [
+      { required: true, message: "会议名不能为空", trigger: "blur" }
+    ],
+    startTime: [
+      { required: true, message: "开始时间不能为空", trigger: "blur" }
+    ],
+    endTime: [
+      { required: true, message: "结束时间不能为空", trigger: "blur" }
+    ],
+    organizationId: [
+      { required: true, message: "所属组织不能为空", trigger: "change" }
+    ],
+    leaderName: [
+      { required: true, message: "主持人姓名不能为空", trigger: "blur" }
+    ],
+    leaderNumber: [
+      { required: true, message: "参会人数不能为空", trigger: "blur" }
+    ]
   }
 });
 

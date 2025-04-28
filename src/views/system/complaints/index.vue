@@ -1,23 +1,21 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="建筑名" prop="name">
+      <el-form-item label="投诉人" prop="volunteerId">
         <el-input
-          v-model="queryParams.name"
-          placeholder="请输入建筑名"
+          v-model="queryParams.volunteerId"
+          placeholder="请输入投诉人"
           clearable
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="是否空闲" prop="isAvailable">
-        <el-select v-model="queryParams.isAvailable" placeholder="请选择是否空闲" clearable>
-          <el-option
-            v-for="dict in building_is_free"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
+      <el-form-item label="投诉时间" prop="complaintTime">
+        <el-date-picker clearable
+          v-model="queryParams.complaintTime"
+          type="date"
+          value-format="YYYY-MM-DD"
+          placeholder="请选择投诉时间">
+        </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
@@ -32,7 +30,7 @@
           plain
           icon="Plus"
           @click="handleAdd"
-          v-hasPermi="['system:buildings:add']"
+          v-hasPermi="['system:complaints:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -42,7 +40,7 @@
           icon="Edit"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:buildings:edit']"
+          v-hasPermi="['system:complaints:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -52,7 +50,7 @@
           icon="Delete"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:buildings:remove']"
+          v-hasPermi="['system:complaints:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -61,30 +59,30 @@
           plain
           icon="Download"
           @click="handleExport"
-          v-hasPermi="['system:buildings:export']"
+          v-hasPermi="['system:complaints:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="buildingsList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="complaintsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="主键" align="center" prop="id" />
-      <el-table-column label="建筑名" align="center" prop="name" />
-      <el-table-column label="地址" align="center" prop="address" />
-      <el-table-column label="是否空闲" align="center" prop="isAvailable">
+      <el-table-column label="id" align="center" prop="id" />
+      <el-table-column label="投诉人" align="center" prop="volunteerId" />
+      <el-table-column label="投诉内容" align="center" prop="complaintContent" />
+      <el-table-column label="投诉时间" align="center" prop="complaintTime" width="180">
         <template #default="scope">
-          <dict-tag :options="building_is_free" :value="scope.row.isAvailable"/>
+          <span>{{ parseTime(scope.row.complaintTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:buildings:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:buildings:remove']">删除</el-button>
+          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:complaints:edit']">修改</el-button>
+          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:complaints:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -93,24 +91,14 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改建筑管理对话框 -->
+    <!-- 添加或修改投诉反馈对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="buildingsRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="建筑名" prop="name">
-          <el-input v-model="form.name" placeholder="请输入建筑名" />
+      <el-form ref="complaintsRef" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="投诉人" prop="volunteerId">
+          <el-input v-model="form.volunteerId" placeholder="请输入投诉人" />
         </el-form-item>
-        <el-form-item label="地址" prop="address">
-          <el-input v-model="form.address" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="是否空闲" prop="isAvailable">
-          <el-select v-model="form.isAvailable" placeholder="请选择是否空闲">
-            <el-option
-              v-for="dict in building_is_free"
-              :key="dict.value"
-              :label="dict.label"
-              :value="parseInt(dict.value)"
-            ></el-option>
-          </el-select>
+        <el-form-item label="投诉内容">
+          <editor v-model="form.complaintContent" :min-height="192"/>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -123,13 +111,12 @@
   </div>
 </template>
 
-<script setup name="Buildings">
-import { listBuildings, getBuildings, delBuildings, addBuildings, updateBuildings } from "@/api/system/buildings";
+<script setup name="Complaints">
+import { listComplaints, getComplaints, delComplaints, addComplaints, updateComplaints } from "@/api/system/complaints";
 
 const { proxy } = getCurrentInstance();
-const { building_is_free } = proxy.useDict('building_is_free');
 
-const buildingsList = ref([]);
+const complaintsList = ref([]);
 const open = ref(false);
 const loading = ref(true);
 const showSearch = ref(true);
@@ -144,27 +131,21 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    name: null,
-    address: null,
-    isAvailable: null
+    volunteerId: null,
+    complaintContent: null,
+    complaintTime: null
   },
   rules: {
-    name: [
-      { required: true, message: "建筑名不能为空", trigger: "blur" }
-    ],
-    isAvailable: [
-      { required: true, message: "是否空闲不能为空", trigger: "change" }
-    ]
   }
 });
 
 const { queryParams, form, rules } = toRefs(data);
 
-/** 查询建筑管理列表 */
+/** 查询投诉反馈列表 */
 function getList() {
   loading.value = true;
-  listBuildings(queryParams.value).then(response => {
-    buildingsList.value = response.rows;
+  listComplaints(queryParams.value).then(response => {
+    complaintsList.value = response.rows;
     total.value = response.total;
     loading.value = false;
   });
@@ -180,11 +161,11 @@ function cancel() {
 function reset() {
   form.value = {
     id: null,
-    name: null,
-    address: null,
-    isAvailable: null
+    volunteerId: null,
+    complaintContent: null,
+    complaintTime: null
   };
-  proxy.resetForm("buildingsRef");
+  proxy.resetForm("complaintsRef");
 }
 
 /** 搜索按钮操作 */
@@ -210,32 +191,32 @@ function handleSelectionChange(selection) {
 function handleAdd() {
   reset();
   open.value = true;
-  title.value = "添加建筑管理";
+  title.value = "添加投诉反馈";
 }
 
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset();
   const _id = row.id || ids.value
-  getBuildings(_id).then(response => {
+  getComplaints(_id).then(response => {
     form.value = response.data;
     open.value = true;
-    title.value = "修改建筑管理";
+    title.value = "修改投诉反馈";
   });
 }
 
 /** 提交按钮 */
 function submitForm() {
-  proxy.$refs["buildingsRef"].validate(valid => {
+  proxy.$refs["complaintsRef"].validate(valid => {
     if (valid) {
       if (form.value.id != null) {
-        updateBuildings(form.value).then(response => {
+        updateComplaints(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
-        addBuildings(form.value).then(response => {
+        addComplaints(form.value).then(response => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
           getList();
@@ -248,8 +229,8 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _ids = row.id || ids.value;
-  proxy.$modal.confirm('是否确认删除建筑管理编号为"' + _ids + '"的数据项？').then(function() {
-    return delBuildings(_ids);
+  proxy.$modal.confirm('是否确认删除投诉反馈编号为"' + _ids + '"的数据项？').then(function() {
+    return delComplaints(_ids);
   }).then(() => {
     getList();
     proxy.$modal.msgSuccess("删除成功");
@@ -258,9 +239,9 @@ function handleDelete(row) {
 
 /** 导出按钮操作 */
 function handleExport() {
-  proxy.download('system/buildings/export', {
+  proxy.download('system/complaints/export', {
     ...queryParams.value
-  }, `buildings_${new Date().getTime()}.xlsx`)
+  }, `complaints_${new Date().getTime()}.xlsx`)
 }
 
 getList();
