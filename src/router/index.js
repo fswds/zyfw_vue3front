@@ -204,6 +204,21 @@ export const constantRoutes = [
                 meta: {title: '人员管理', noCache: true,}
             }
         ]
+    },
+    {
+        path: '/elderly',
+        component: Layout,
+        redirect: 'noredirect',
+        hidden: false,
+        meta: { title: '老人管理', icon: 'peoples' },
+        children: [
+            {
+                path: 'info',
+                component: () => import('@/views/system/elderly/index.vue'),
+                name: 'ElderlyInfo',
+                meta: { title: '老人信息', icon: 'user', noCache: true }
+            }
+        ]
     }
 ]
 

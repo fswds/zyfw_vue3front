@@ -2,7 +2,7 @@ export default {
     /**
      * 网页标题
      */
-    title: "志愿服务平台",
+    title: "社区养老志愿服务",
     /**
      * 侧边栏主题 深色主题theme-dark，浅色主题theme-light
      */
