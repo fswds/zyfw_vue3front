@@ -11,7 +11,6 @@ let downloadLoadingInstance;
 // 是否显示重新登录
 export let isRelogin = { show: false };
 
-axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
@@ -64,6 +63,10 @@ service.interceptors.request.use(config => {
         cache.session.setJSON('sessionObj', requestObj)
       }
     }
+  }
+  // 只对非FormData请求设置Content-Type
+  if (!(config.data instanceof FormData)) {
+    config.headers['Content-Type'] = 'application/json;charset=utf-8'
   }
   return config
 }, error => {
