@@ -114,7 +114,7 @@ init()
 }
 
 .title {
-  background: #409eff;
+  background: #2d5299;
   color: #fff;
   text-align: center;
   padding: 10px;
@@ -130,14 +130,14 @@ init()
   text-align: center;
   color: #aaaaaa;
   font-size: 20px;
-  border: 3px solid #409eff;
+  border: 3px solid #2d5299;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
 }
 
 
 .list {
-  border: 3px solid #409eff;
+  border: 3px solid #2d5299;
   padding: 10px;
 }
 

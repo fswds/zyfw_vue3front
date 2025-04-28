@@ -22,7 +22,7 @@
     :default-active="currentIndex"
     class="el-menu-demo"
     mode="horizontal"
-    background-color="#409eff"
+    background-color="#2d5299"
     text-color="#fff"
     active-text-color="#ffd04b"
     :ellipsis="false"
@@ -102,7 +102,7 @@ function logout() {
     font-size: 22px;
     text-align: center;
     line-height: 70px;
-    color: #409eff;
+    color: #2d5299;
     font-weight: bolder;
   }
 }
@@ -112,7 +112,7 @@ function logout() {
   line-height: 60px;
   color: #FFFFFF;
   font-weight: bold;
-  background-color: #409eff;
+  background-color: #2d5299;
 }
 
 .el-menu-demo{

@@ -54,7 +54,7 @@
           <el-row class="mt20" :gutter="20">
             <el-col :span="8">
               <div class="nav_card" @click="handlePage(navList[0].route)"
-                   style="background-color: #ec268f;box-shadow: 3px 3px 8px 0 rgba(231,43,121,0.6);">
+                   style="background-color: #2b2499;box-shadow: 3px 3px 8px 0 rgba(9,6,9,0.6);">
                 <div class="nav_ti">{{ navList[0].name }}</div>
                 <div class="nav_img">
                   <img style="height: 60px" src="../../assets/images/wenben.png" alt="wenben"/>
@@ -63,7 +63,7 @@
             </el-col>
             <el-col :span="8">
               <div class="nav_card" @click="handlePage(navList[1].route)"
-                   style="background-color: #19c9e8;box-shadow: 3px 3px 8px 0 rgb(25,194,224);">
+                   style="background-color: #07b185;box-shadow: 3px 3px 8px 0 rgb(22,26,27);">
                 <div class="nav_ti">{{ navList[1].name }}</div>
                 <div class="nav_img">
                   <img style="height: 60px" src="../../assets/images/wenben.png" alt="wenben"/>
@@ -72,7 +72,7 @@
             </el-col>
             <el-col :span="8">
               <div class="nav_card" @click="handlePage(navList[2].route)"
-                   style="background-color: #4ecc64; box-shadow: 3px 3px 8px 0 rgb(72,168,89);">
+                   style="background-color: #fd0808; box-shadow: 3px 3px 8px 0 rgb(13,21,14);">
                 <div class="nav_ti">{{ navList[2].name }}</div>
                 <div class="nav_img">
                   <img style="height: 60px" src="../../assets/images/wenben.png" alt="wenben"/>
@@ -84,7 +84,7 @@
           <el-row class="mt20" :gutter="20">
             <el-col :span="8">
               <div class="nav_card" @click="handlePage(navList[3].route)"
-                   style="background-color: #ffb30c;box-shadow: 3px 3px 8px 0 rgb(225,163,27);">
+                   style="background-color: #4aa5c6;box-shadow: 3px 3px 8px 0 rgb(12,11,7);">
                 <div class="nav_ti">{{ navList[3].name }}</div>
                 <div class="nav_img">
                   <img style="height: 60px" src="../../assets/images/wenben.png" alt="wenben"/>
@@ -164,7 +164,7 @@ init()
 }
 
 .title {
-  background: #409eff;
+  background: #2d5299;
   color: #fff;
   text-align: center;
   padding: 10px;

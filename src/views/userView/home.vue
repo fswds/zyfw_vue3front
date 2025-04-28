@@ -103,6 +103,7 @@
         <div v-html="noticeForm.noticeContent"></div>
       </div>
     </el-dialog>
+    <global-chatbot />
   </div>
 
 </template>
@@ -112,6 +113,7 @@ import { listRelation } from "@/api/system/volunteerActivityRelation.js";
 import VolSwiper from "@/views/userView/compoents/volSwiper.vue";
 import { useRouter } from "vue-router";
 import { listNotice } from "@/api/system/notice.js";
+import GlobalChatbot from '@/components/GlobalChatbot.vue';
 
 const { proxy } = getCurrentInstance();
 const {
@@ -180,7 +182,7 @@ getActList()
 }
 
 .card-flag {
-  background-color: #409eff;
+  background-color: #2d5299;
   width: 5px;
   height: 20px;
   display: inline-block;
@@ -188,7 +190,7 @@ getActList()
 }
 
 .card-title {
-  color: #409eff;
+  color: #2d5299;
 }
 
 .list,
@@ -278,7 +280,7 @@ getActList()
   }
 
   .label_active {
-    background: #409eff;
+    background: #2d5299;
     color: #FFFFFF;
     height: 50px;
     line-height: 50px;

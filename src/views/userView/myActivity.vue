@@ -95,7 +95,7 @@ getactList()
 }
 
 .title {
-  background: #409eff;
+  background: #2d5299;
   color: #fff;
   text-align: center;
   padding: 10px;
@@ -107,7 +107,7 @@ getactList()
 
 
 .list {
-  border: 3px solid #409eff;
+  border: 3px solid #2d5299;
   padding: 10px;
 }
 </style>

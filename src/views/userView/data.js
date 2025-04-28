@@ -22,6 +22,10 @@ export const barList = [
         id: 5,
         name: "个人中心",
         route: "/userIndex/profile"
+    },{
+        id: 5,
+        name: "...",
+        route: "/userIndex/ai"
     }
 ]
 

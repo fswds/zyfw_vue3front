@@ -131,7 +131,7 @@ init()
 }
 
 .title {
-  background: #409eff;
+  background: #2d5299;
   color: #fff;
   text-align: center;
   padding: 10px;
