@@ -49,5 +49,10 @@ export const navList = [
         id: 4,
         name: "信息修改",
         route: "/userIndex/myInfo"
+    },
+    {
+        id: 5,
+        name: "投诉反馈",
+        route: "/userIndex/complaints"
     }
 ]

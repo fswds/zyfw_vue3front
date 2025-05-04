@@ -2,12 +2,22 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="投诉人" prop="volunteerId">
-        <el-input
+        <el-select
           v-model="queryParams.volunteerId"
-          placeholder="请输入投诉人"
+          placeholder="请选择投诉人"
           clearable
-          @keyup.enter="handleQuery"
-        />
+          style="width: 200px"
+          filterable
+        >
+          <el-option
+            v-for="item in volunteerOptions"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          >
+            <span>{{ item.name }}</span>
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="投诉时间" prop="complaintTime">
         <el-date-picker clearable
@@ -68,7 +78,11 @@
     <el-table v-loading="loading" :data="complaintsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="id" />
-      <el-table-column label="投诉人" align="center" prop="volunteerId" />
+      <el-table-column label="投诉人" align="center" prop="volunteerId">
+        <template #default="scope">
+          <span>{{ volunteerMap[scope.row.volunteerId] }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="投诉内容" align="center" prop="complaintContent" />
       <el-table-column label="投诉时间" align="center" prop="complaintTime" width="180">
         <template #default="scope">
@@ -95,7 +109,21 @@
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="complaintsRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="投诉人" prop="volunteerId">
-          <el-input v-model="form.volunteerId" placeholder="请输入投诉人" />
+          <el-select
+            v-model="form.volunteerId"
+            placeholder="请选择投诉人"
+            style="width: 100%"
+            disabled
+          >
+            <el-option
+              v-for="item in volunteerOptions"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+              <span>{{ item.name }}</span>
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="投诉内容">
           <editor v-model="form.complaintContent" :min-height="192"/>
@@ -113,8 +141,11 @@
 
 <script setup name="Complaints">
 import { listComplaints, getComplaints, delComplaints, addComplaints, updateComplaints } from "@/api/system/complaints";
+import { listVolunteer } from "@/api/system/volunteer";
+import useUserStore from '@/store/modules/user';
 
 const { proxy } = getCurrentInstance();
+const userInfo = useUserStore();
 
 const complaintsList = ref([]);
 const open = ref(false);
@@ -125,6 +156,16 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
+const volunteerOptions = ref([]);
+
+// 计算属性：志愿者ID到名称的映射
+const volunteerMap = computed(() => {
+  const map = {};
+  volunteerOptions.value.forEach(volunteer => {
+    map[volunteer.id] = volunteer.name;
+  });
+  return map;
+});
 
 const data = reactive({
   form: {},
@@ -136,6 +177,9 @@ const data = reactive({
     complaintTime: null
   },
   rules: {
+    volunteerId: [
+      { required: true, message: "投诉人不能为空", trigger: "change" }
+    ]
   }
 });
 
@@ -151,6 +195,13 @@ function getList() {
   });
 }
 
+/** 获取志愿者列表 */
+function getVolunteerList() {
+  listVolunteer().then(response => {
+    volunteerOptions.value = response.rows;
+  });
+}
+
 // 取消按钮
 function cancel() {
   open.value = false;
@@ -161,7 +212,7 @@ function cancel() {
 function reset() {
   form.value = {
     id: null,
-    volunteerId: null,
+    volunteerId: userInfo.user.volunteerId,
     complaintContent: null,
     complaintTime: null
   };
@@ -245,4 +296,5 @@ function handleExport() {
 }
 
 getList();
+getVolunteerList();
 </script>

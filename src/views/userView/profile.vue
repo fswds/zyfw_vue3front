@@ -91,10 +91,54 @@
                 </div>
               </div>
             </el-col>
+            <el-col :span="8">
+              <div class="nav_card" @click="handleComplaint"
+                   style="background-color: #fd0808;box-shadow: 3px 3px 8px 0 rgb(12,11,7);">
+                <div class="nav_ti">投诉反馈</div>
+                <div class="nav_img">
+                  <img style="height: 60px" src="../../assets/images/wenben.png" alt="wenben"/>
+                </div>
+              </div>
+            </el-col>
           </el-row>
         </el-col>
       </el-row>
     </div>
+
+    <!-- 投诉反馈弹窗 -->
+    <el-dialog title="投诉反馈" v-model="open" width="500px" append-to-body>
+      <el-form :model="form" label-width="80px">
+        <el-form-item label="投诉人" prop="volunteerId">
+          <el-select
+            v-model="form.volunteerId"
+            placeholder="请选择投诉人"
+            style="width: 100%"
+            disabled
+          >
+            <el-option
+              :label="state.user.userName"
+              :value="userInfoData.user.volunteerId"
+            >
+              <span>{{ state.user.userName }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="投诉内容" prop="complaintContent">
+          <el-input
+            v-model="form.complaintContent"
+            type="textarea"
+            placeholder="请输入投诉内容"
+            :rows="4"
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button type="primary" @click="submitComplaint">提 交</el-button>
+          <el-button @click="open = false">取 消</el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -104,6 +148,7 @@ import {getUser} from "@/api/system/user";
 import UserAvatar from "@/views/system/user/profile/userAvatar.vue";
 import useUserStore from "@/store/modules/user.js";
 import {addVolunteer} from "@/api/system/volunteer.js";
+import {addComplaints} from "@/api/system/complaints.js";
 import {ElMessage} from "element-plus";
 import {useRouter} from "vue-router";
 
@@ -125,6 +170,11 @@ const queryParams = ref({
   pageNum: 1,
 })
 const total = ref(0)
+const open = ref(false);
+const form = ref({
+  volunteerId: userInfoData.user.volunteerId,
+  complaintContent: ''
+});
 
 function init() {
   getUserInfo()
@@ -154,6 +204,25 @@ function handleAdd() {
     ElMessage.success(res.msg)
     getUserInfo()
   })
+}
+
+function handleComplaint() {
+  form.value = {
+    volunteerId: userInfoData.user.volunteerId,
+    complaintContent: ''
+  };
+  open.value = true;
+}
+
+function submitComplaint() {
+  if (!form.value.complaintContent) {
+    ElMessage.warning('请输入投诉内容');
+    return;
+  }
+  addComplaints(form.value).then(response => {
+    ElMessage.success('提交成功');
+    open.value = false;
+  });
 }
 
 init()
