@@ -52,7 +52,11 @@
     <el-table v-loading="loading" :data="recordsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="id" />
-      <el-table-column label="所属会议" align="center" prop="meetingId" />
+      <el-table-column label="所属会议" align="center" prop="meetingId">
+        <template #default="scope">
+          <span>{{ meetingMap[scope.row.meetingId] }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="会议内容" align="center" prop="content" />
       <el-table-column label="会议结果" align="center" prop="result" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -74,6 +78,23 @@
     <!-- 添加或修改会议记录对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="recordsRef" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="所属会议" prop="meetingId">
+          <el-select
+            v-model="form.meetingId"
+            placeholder="请选择所属会议"
+            style="width: 100%"
+            filterable
+          >
+            <el-option
+              v-for="item in meetingOptions"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+              <span>{{ item.name }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="会议内容">
           <editor v-model="form.content" :min-height="192"/>
         </el-form-item>
@@ -93,6 +114,7 @@
 
 <script setup name="Records">
 import { listRecords, getRecords, delRecords, addRecords, updateRecords } from "@/api/system/records";
+import { listMeetings } from "@/api/system/meetings";
 
 const { proxy } = getCurrentInstance();
 
@@ -105,6 +127,16 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
+const meetingOptions = ref([]);
+
+// 计算属性：会议ID到名称的映射
+const meetingMap = computed(() => {
+  const map = {};
+  meetingOptions.value.forEach(meeting => {
+    map[meeting.id] = meeting.name;
+  });
+  return map;
+});
 
 const data = reactive({
   form: {},
@@ -116,6 +148,9 @@ const data = reactive({
     result: null
   },
   rules: {
+    meetingId: [
+      { required: true, message: "所属会议不能为空", trigger: "change" }
+    ]
   }
 });
 
@@ -128,6 +163,13 @@ function getList() {
     recordsList.value = response.rows;
     total.value = response.total;
     loading.value = false;
+  });
+}
+
+/** 获取会议列表 */
+function getMeetingList() {
+  listMeetings().then(response => {
+    meetingOptions.value = response.rows;
   });
 }
 
@@ -225,4 +267,5 @@ function handleExport() {
 }
 
 getList();
+getMeetingList();
 </script>

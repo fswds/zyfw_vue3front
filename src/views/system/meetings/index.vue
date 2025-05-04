@@ -41,6 +41,21 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="所属组织" prop="organizationId">
+        <el-select
+          v-model="queryParams.organizationId"
+          placeholder="请选择所属组织"
+          clearable
+          style="width: 200px"
+        >
+          <el-option
+            v-for="item in organizationOptions"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
@@ -104,7 +119,11 @@
         </template>
       </el-table-column>
       <el-table-column label="地址" align="center" prop="address" />
-      <el-table-column label="所属组织" align="center" prop="organizationId" />
+      <el-table-column label="所属组织" align="center" prop="organizationId">
+        <template #default="scope">
+          <span>{{ organizationMap[scope.row.organizationId] }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="主持人姓名" align="center" prop="leaderName" />
       <el-table-column label="参会人数" align="center" prop="leaderNumber" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -128,6 +147,20 @@
       <el-form ref="meetingsRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="会议名" prop="name">
           <el-input v-model="form.name" placeholder="请输入会议名" />
+        </el-form-item>
+        <el-form-item label="所属组织" prop="organizationId">
+          <el-select
+            v-model="form.organizationId"
+            placeholder="请选择所属组织"
+            style="width: 100%"
+          >
+            <el-option
+              v-for="item in organizationOptions"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="开始时间" prop="startTime">
           <el-date-picker clearable
@@ -167,6 +200,7 @@
 
 <script setup name="Meetings">
 import { listMeetings, getMeetings, delMeetings, addMeetings, updateMeetings } from "@/api/system/meetings";
+import { listOrganization } from "@/api/system/organization";
 
 const { proxy } = getCurrentInstance();
 
@@ -179,6 +213,7 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
+const organizationOptions = ref([]);
 
 const data = reactive({
   form: {},
@@ -224,6 +259,13 @@ function getList() {
     meetingsList.value = response.rows;
     total.value = response.total;
     loading.value = false;
+  });
+}
+
+/** 获取组织列表 */
+function getOrganizationList() {
+  listOrganization().then(response => {
+    organizationOptions.value = response.rows;
   });
 }
 
@@ -324,5 +366,15 @@ function handleExport() {
   }, `meetings_${new Date().getTime()}.xlsx`)
 }
 
+// 计算属性：组织ID到名称的映射
+const organizationMap = computed(() => {
+  const map = {};
+  organizationOptions.value.forEach(org => {
+    map[org.id] = org.name;
+  });
+  return map;
+});
+
 getList();
+getOrganizationList();
 </script>
