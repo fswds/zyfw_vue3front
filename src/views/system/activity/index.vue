@@ -441,11 +441,16 @@ function handleView(row, type) {
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset();
-  const _id = row.id || ids.value
+  const _id = row.id || ids.value;
+  console.log('修改活动ID:', _id);
   getActivity(_id).then(response => {
+    console.log('获取活动数据:', response);
     form.value = response.data;
     open.value = true;
     title.value = "修改活动信息";
+  }).catch(error => {
+    console.error('获取活动数据失败:', error);
+    proxy.$modal.msgError("获取活动数据失败");
   });
 }
 
@@ -458,19 +463,27 @@ function handleRoute(route) {
 function submitForm() {
   proxy.$refs["activityRef"].validate(valid => {
     if (valid) {
-      form.value.organizer = volunteerDict.value.find(item => item.id == form.value.organizationId).name
-      form.value.userId = userInfo.user.userId
+      console.log('提交的表单数据:', form.value);
+      form.value.organizer = volunteerDict.value.find(item => item.id == form.value.organizationId)?.name;
+      form.value.userId = userInfo.user.userId;
       if (form.value.id != null) {
         updateActivity(form.value).then(response => {
+          console.log('更新活动响应:', response);
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
           getList();
+        }).catch(error => {
+          console.error('更新活动失败:', error);
+          proxy.$modal.msgError("修改失败");
         });
       } else {
         addActivity(form.value).then(response => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
           getList();
+        }).catch(error => {
+          console.error('新增活动失败:', error);
+          proxy.$modal.msgError("新增失败");
         });
       }
     }

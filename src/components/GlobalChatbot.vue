@@ -38,7 +38,7 @@ onMounted(() => {
         conversationOptions: {
           conversationStarters: [
             {prompt: '我想报名参加社区活动，怎么操作？'},
-            {prompt: '如何报名成为社区志愿者？'},
+            {prompt: '活动服务有哪些类型？'},
             {prompt: '帮助老人时应注意哪些事项'},
           ]
         },
