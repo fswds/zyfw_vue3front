@@ -2,8 +2,10 @@
   <div class="user_app">
     <!-- 标题 -->
     <el-row class="user_title">
-      <el-image :src="src" style="width: 60px;height: 60px;margin-right: -80px"></el-image>
-      <el-col class="title" :span="4">{{ settings.title }}</el-col>
+      <div class="title-container">
+        <el-image :src="src" class="logo"></el-image>
+        <div class="title">{{ settings.title }}</div>
+      </div>
     </el-row>
     <!--导航栏-->
     <el-row class="user_top" :gutter="20">
@@ -98,10 +100,23 @@ function logout() {
 }
 .user_title{
   height: 70px;
+  display: flex;
+  align-items: center;
+  
+  .title-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 20px;
+  }
+
+  .logo {
+    width: 60px;
+    height: 60px;
+  }
+
   .title {
     font-size: 22px;
-    text-align: center;
-    line-height: 70px;
     color: #2d5299;
     font-weight: bolder;
   }
