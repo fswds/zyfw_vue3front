@@ -100,7 +100,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-register-footer">
-      <span>Copyright © 2018-2023 {{ settings.title }} All Rights Reserved.</span>
+      <span>Copyright © 2025 {{ settings.title }} All Rights Reserved.</span>
     </div>
   </div>
 </template>
@@ -179,13 +179,24 @@ function handleRegister() {
       registerForm.value.roleIds = [registerForm.value.roleId]
       register(registerForm.value).then(res => {
         const username = registerForm.value.username;
-        ElMessageBox.alert("<font color='red'>恭喜你，您的账号 " + username + " 注册成功！</font>", "系统提示", {
-          dangerouslyUseHTMLString: true,
-          type: "success",
-        }).then(() => {
-          router.push("/login");
-        }).catch(() => {
-        });
+        ElMessageBox.alert(
+          `<div class="success-message">
+            <div class="success-icon">✓</div>
+            <div class="success-title">注册成功</div>
+            <div class="success-content">恭喜您，账号 <span class="username">${username}</span> 已成功注册！</div>
+            <div class="success-tip">即将跳转到登录页面...</div>
+          </div>`, 
+          "系统提示", 
+          {
+            dangerouslyUseHTMLString: true,
+            type: "success",
+            customClass: 'register-success-dialog',
+            confirmButtonText: '立即登录',
+            callback: () => {
+              router.push("/login");
+            }
+          }
+        );
       }).catch(() => {
         loading.value = false;
         if (captchaEnabled) {
@@ -217,22 +228,30 @@ listRoleOption()
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-size: cover;
-  background-color:rgb(20, 61, 136);
+  background-color:#4AB7BD;
   background-image: url('../assets/login/register.jpg');
+  background-size: cover;
 }
 
 .title {
   margin: 0px auto 30px auto;
   text-align: center;
-  color: #707070;
+  color: #000;
 }
 
 .register-form {
   border-radius: 6px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.45);
   width: 400px;
   padding: 25px 25px 5px 25px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 
   .el-input {
     height: 40px;
@@ -282,5 +301,101 @@ listRoleOption()
 .register-code-img {
   height: 40px;
   padding-left: 12px;
+}
+
+:deep(.register-success-dialog) {
+  .el-message-box__header {
+    padding: 20px;
+    background: linear-gradient(135deg, #4AB7BD, #2d5299);
+    border-radius: 8px 8px 0 0;
+    
+    .el-message-box__title {
+      color: #fff;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    
+    .el-message-box__headerbtn .el-message-box__close {
+      color: #fff;
+    }
+  }
+
+  .el-message-box__content {
+    padding: 30px 20px;
+  }
+
+  .el-message-box__btns {
+    padding: 10px 20px 20px;
+    
+    .el-button {
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #4AB7BD, #2d5299);
+      border: none;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(45, 82, 153, 0.2);
+      }
+    }
+  }
+}
+
+:deep(.success-message) {
+  text-align: center;
+  padding: 20px 0;
+
+  .success-icon {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4AB7BD, #2d5299);
+    color: #fff;
+    font-size: 36px;
+    margin: 0 auto 20px;
+    animation: scaleIn 0.5s ease;
+  }
+
+  .success-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2d5299;
+    margin-bottom: 15px;
+  }
+
+  .success-content {
+    font-size: 16px;
+    color: #606266;
+    margin-bottom: 15px;
+    line-height: 1.6;
+
+    .username {
+      color: #4AB7BD;
+      font-weight: 600;
+      font-size: 18px;
+    }
+  }
+
+  .success-tip {
+    font-size: 14px;
+    color: #909399;
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 </style>
