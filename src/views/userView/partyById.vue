@@ -16,36 +16,28 @@
     </div>
     <div class="list">
       <!--基本信息-->
-      <el-card shadow="never">
+      <el-card shadow="never" class="info-card">
         <template #header>
-          <span>组织信息</span>
+          <span class="card-title">组织信息</span>
         </template>
-        <el-form label-width="68px">
-          <el-row :gutter="20">
-            <el-col :span="4">
-              <el-image style="width: 100%;height: 100%" :src="baseAPI+partyInfo.imgs">
-                <template #error>
-                  <div style="text-align: center;color: #aaaaaa;">
-                    <img style="width: 100%;height: 90%" src="../../assets/images/party_default.png" alt="img"/>
-                  </div>
-                </template>
-              </el-image>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="组织编号">
-                {{ partyInfo.id }}
-              </el-form-item>
-              <el-form-item label="活动名称">
-                {{ partyInfo.name }}
-              </el-form-item>
-              <el-form-item label="创建时间">
-                {{ partyInfo.createTime }}
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="8">
-              <el-form-item label="组织介绍">
-                {{ partyInfo.introduce }}
+        <el-form label-width="100px" class="info-form">
+          <el-row :gutter="30">
+            <el-col :span="24">
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <el-form-item label="组织编号" class="form-item">
+                    <span class="info-value">{{ partyInfo.id }}</span>
+                  </el-form-item>
+                  <el-form-item label="组织名称" class="form-item">
+                    <span class="info-value">{{ partyInfo.name }}</span>
+                  </el-form-item>
+                  <el-form-item label="创建时间" class="form-item">
+                    <span class="info-value">{{ partyInfo.createTime }}</span>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-form-item label="组织介绍" class="form-item">
+                <div class="info-value description">{{ partyInfo.introduce }}</div>
               </el-form-item>
             </el-col>
           </el-row>
@@ -221,40 +213,81 @@ init()
   color: #fff;
   text-align: center;
   padding: 6px;
+  border-radius: 4px;
+  margin-bottom: 20px;
 
   &:hover {
     cursor: pointer;
   }
 }
 
-
 .list {
   border: 3px solid #409eff;
-  padding: 10px;
+  padding: 20px;
+  border-radius: 8px;
 }
 
-.anscard {
-  margin: 3px 0;
-  padding: 10px 6px;
-  border: 1px solid #eeeeee;
-
-  &:hover {
-    box-shadow: 0px 12px 32px 4px rgba(0, 0, 0, .04), 0px 8px 20px rgba(0, 0, 0, .08);
+.info-card {
+  margin-bottom: 20px;
+  border-radius: 8px;
+  
+  .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2d5299;
   }
+}
 
-  .name {
-    display: flex;
-    align-items: center;
-    padding-bottom: 6px;
-    border-bottom: 1px solid #eeeeee;
+.info-form {
+  .form-item {
+    margin-bottom: 20px;
+    
+    :deep(.el-form-item__label) {
+      font-weight: 500;
+      color: #606266;
+      font-size: 16px;
+    }
   }
+}
 
-  .comCard {
-    padding: 6px;
-  }
+.info-value {
+  color: #303133;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+.description {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  line-height: 1.8;
+  font-size: 16px;
+  margin-top: 10px;
 }
 
 :deep(.el-form-item) {
   margin-bottom: 0;
+}
+
+:deep(.el-link) {
+  font-size: 16px;
+}
+
+:deep(.el-button) {
+  font-size: 16px;
+}
+
+:deep(.el-table) {
+  font-size: 16px;
+  
+  .el-table__header th {
+    background-color: #f5f7fa;
+    color: #2d5299;
+    font-weight: 600;
+  }
+  
+  .el-table__row:hover {
+    background-color: #f5f7fa;
+  }
 }
 </style>

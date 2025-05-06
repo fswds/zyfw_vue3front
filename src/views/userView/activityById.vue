@@ -23,63 +23,61 @@
     </div>
     <div class="list">
       <!--基本信息-->
-      <el-card shadow="never">
+      <el-card shadow="never" class="info-card">
         <template #header>
-          <span>活动信息</span>
+          <span class="card-title">活动信息</span>
         </template>
-        <el-form label-width="68px">
-          <el-row :gutter="20">
-            <el-col :span="4">
-              <el-image style="width: 100%;height: 100%" :src="baseAPI+activeInfo.imgs">
-                <template #error>
-                  <div style="text-align: center;color: #aaaaaa;">
-                    暂无图片
-                  </div>
-                </template>
-              </el-image>
-            </el-col>
+        <el-form label-width="100px" class="info-form">
+          <el-row :gutter="30">
             <el-col :span="6">
-              <el-form-item label="活动编号">
-                {{ activeInfo.activityId }}
-              </el-form-item>
-              <el-form-item label="活动名称">
-                {{ activeInfo.activityName }}
-              </el-form-item>
-              <el-form-item label="活动类型">
-                <dict-tag :options="sys_activity_type" :value="activeInfo.activityType"/>
-              </el-form-item>
-              <el-form-item label="活动人数">
-                {{ activeInfo.attendPeopleCount }}/{{ activeInfo.numberLimit }}
-              </el-form-item>
-              <el-form-item label="志愿要求">
-                {{ activeInfo.ask }}
-              </el-form-item>
+              <div class="image-container">
+                <el-image style="width: 100%; height: 200px; border-radius: 8px;" :src="baseAPI+activeInfo.imgs">
+                  <template #error>
+                    <div class="image-placeholder">
+                      暂无图片
+                    </div>
+                  </template>
+                </el-image>
+              </div>
             </el-col>
-            <el-col :span="6">
-              <el-form-item label="举办组织">
-                {{ activeInfo.organizer }}
+            <el-col :span="18">
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <el-form-item label="活动名称" class="form-item">
+                    <span class="info-value">{{ activeInfo.activityName }}</span>
+                  </el-form-item>
+                  <el-form-item label="活动类型" class="form-item">
+                    <div class="activity-type">
+                      <dict-tag :options="sys_activity_type" :value="activeInfo.activityType"/>
+                    </div>
+                  </el-form-item>
+                  <el-form-item label="举办组织" class="form-item">
+                    <span class="info-value">{{ activeInfo.organizer }}</span>
+                  </el-form-item>
+                  <el-form-item label="活动人数" class="form-item">
+                    <span class="info-value">{{ activeInfo.attendPeopleCount }}/{{ activeInfo.numberLimit }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="联系人" class="form-item">
+                    <span class="info-value">{{ activeInfo.contacts }}</span>
+                  </el-form-item>
+                  <el-form-item label="联系电话" class="form-item">
+                    <span class="info-value">{{ activeInfo.contactsPhone }}</span>
+                  </el-form-item>
+                  <el-form-item label="活动时间" class="form-item">
+                    <span class="info-value">{{ parseTime(activeInfo.startTime, '{y}-{m}-{d}') }} 至 {{ parseTime(activeInfo.endTime, '{y}-{m}-{d}') }}</span>
+                  </el-form-item>
+                  <el-form-item label="申请状态" class="form-item">
+                    <dict-tag :options="sys_examine_status" :value="activeInfo.userApprovalStatus"/>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-form-item label="志愿要求" class="form-item">
+                <div class="info-value">{{ activeInfo.ask }}</div>
               </el-form-item>
-
-              <el-form-item label="联系人">
-                {{ activeInfo.contacts }}
-              </el-form-item>
-              <el-form-item label="联系电话">
-                {{ activeInfo.contactsPhone }}
-              </el-form-item>
-
-              <el-form-item label="活动时间">
-                {{ parseTime(activeInfo.startTime, '{y}-{m}-{d}') }}至{{
-                  parseTime(activeInfo.endTime, '{y}-{m}-{d}')
-                }}
-              </el-form-item>
-              <el-form-item label="申请状态">
-                <dict-tag :options="sys_examine_status" :value="activeInfo.userApprovalStatus"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="描述">
-                <!--                {{ activeInfo.describe }}-->
-                <div v-html="activeInfo.describe"></div>
+              <el-form-item label="活动描述" class="form-item">
+                <div class="info-value description" v-html="activeInfo.describe"></div>
               </el-form-item>
             </el-col>
           </el-row>
@@ -269,40 +267,139 @@ init()
   color: #fff;
   text-align: center;
   padding: 6px;
+  border-radius: 4px;
+  margin-bottom: 20px;
 
   &:hover {
     cursor: pointer;
   }
 }
 
-
 .list {
   border: 3px solid #2d5299;
-  padding: 10px;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.info-card {
+  margin-bottom: 20px;
+  border-radius: 8px;
+  
+  .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2d5299;
+  }
+}
+
+.info-form {
+  .form-item {
+    margin-bottom: 15px;
+    
+    :deep(.el-form-item__label) {
+      font-weight: 500;
+      color: #606266;
+      font-size: 16px;
+    }
+  }
+}
+
+.image-container {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.image-placeholder {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f7fa;
+  color: #909399;
+  font-size: 16px;
+}
+
+.info-value {
+  color: #303133;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+.description {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 4px;
+  line-height: 1.6;
+  font-size: 16px;
 }
 
 .anscard {
-  margin: 3px 0;
-  padding: 10px 6px;
-  border: 1px solid #eeeeee;
+  margin: 10px 0;
+  padding: 15px;
+  border: 1px solid #ebeef5;
+  border-radius: 8px;
+  transition: all 0.3s;
+  font-size: 16px;
 
   &:hover {
-    box-shadow: 0px 12px 32px 4px rgba(0, 0, 0, .04), 0px 8px 20px rgba(0, 0, 0, .08);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   }
 
   .name {
     display: flex;
     align-items: center;
-    padding-bottom: 6px;
-    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ebeef5;
+    font-size: 16px;
   }
 
   .comCard {
-    padding: 6px;
+    padding: 10px;
+    font-size: 16px;
   }
 }
 
 :deep(.el-form-item) {
   margin-bottom: 0;
+}
+
+:deep(.el-link) {
+  font-size: 16px;
+}
+
+:deep(.el-button) {
+  font-size: 16px;
+}
+
+.activity-type {
+  :deep(.el-tag) {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: #2d5299;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(45, 82, 153, 0.3);
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.2) 100%);
+      z-index: 1;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(45, 82, 153, 0.4);
+    }
+  }
 }
 </style>
