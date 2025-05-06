@@ -225,22 +225,14 @@ listRoleOption()
 .title {
   margin: 0px auto 30px auto;
   text-align: center;
-  color: #000;
+  color: #707070;
 }
 
 .register-form {
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.45);
+  background: #ffffff;
   width: 400px;
   padding: 25px 25px 5px 25px;
-  backdrop-filter: blur(5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: scale(1.05);
-  }
 
   .el-input {
     height: 40px;

@@ -32,12 +32,12 @@
             <el-col :span="6">
               <div class="image-container">
                 <el-image style="width: 100%; height: 200px; border-radius: 8px;" :src="baseAPI+activeInfo.imgs">
-                  <template #error>
+                <template #error>
                     <div class="image-placeholder">
-                      暂无图片
-                    </div>
-                  </template>
-                </el-image>
+                    暂无图片
+                  </div>
+                </template>
+              </el-image>
               </div>
             </el-col>
             <el-col :span="18">
@@ -45,33 +45,33 @@
                 <el-col :span="12">
                   <el-form-item label="活动名称" class="form-item">
                     <span class="info-value">{{ activeInfo.activityName }}</span>
-                  </el-form-item>
+              </el-form-item>
                   <el-form-item label="活动类型" class="form-item">
                     <div class="activity-type">
-                      <dict-tag :options="sys_activity_type" :value="activeInfo.activityType"/>
+                <dict-tag :options="sys_activity_type" :value="activeInfo.activityType"/>
                     </div>
-                  </el-form-item>
+              </el-form-item>
                   <el-form-item label="举办组织" class="form-item">
                     <span class="info-value">{{ activeInfo.organizer }}</span>
-                  </el-form-item>
+              </el-form-item>
                   <el-form-item label="活动人数" class="form-item">
                     <span class="info-value">{{ activeInfo.attendPeopleCount }}/{{ activeInfo.numberLimit }}</span>
-                  </el-form-item>
-                </el-col>
+              </el-form-item>
+            </el-col>
                 <el-col :span="12">
                   <el-form-item label="联系人" class="form-item">
                     <span class="info-value">{{ activeInfo.contacts }}</span>
-                  </el-form-item>
+              </el-form-item>
                   <el-form-item label="联系电话" class="form-item">
                     <span class="info-value">{{ activeInfo.contactsPhone }}</span>
-                  </el-form-item>
+              </el-form-item>
                   <el-form-item label="活动时间" class="form-item">
                     <span class="info-value">{{ parseTime(activeInfo.startTime, '{y}-{m}-{d}') }} 至 {{ parseTime(activeInfo.endTime, '{y}-{m}-{d}') }}</span>
-                  </el-form-item>
+              </el-form-item>
                   <el-form-item label="申请状态" class="form-item">
-                    <dict-tag :options="sys_examine_status" :value="activeInfo.userApprovalStatus"/>
-                  </el-form-item>
-                </el-col>
+                <dict-tag :options="sys_examine_status" :value="activeInfo.userApprovalStatus"/>
+              </el-form-item>
+            </el-col>
               </el-row>
               <el-form-item label="志愿要求" class="form-item">
                 <div class="info-value">{{ activeInfo.ask }}</div>
@@ -260,54 +260,110 @@ init()
 <style scoped lang="scss">
 .app {
   margin: 20px;
+  background: #f8f9fa;
+  min-height: calc(100vh - 40px);
+  border-radius: 16px;
+  padding: 20px;
 }
 
 .title {
-  background: #2d5299;
+  background: linear-gradient(135deg, #2d5299, #4a90e2);
   color: #fff;
   text-align: center;
-  padding: 6px;
-  border-radius: 4px;
-  margin-bottom: 20px;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 16px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 20px rgba(45, 82, 153, 0.2);
+  transition: all 0.3s ease;
 
   &:hover {
     cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(45, 82, 153, 0.3);
+  }
+
+  .el-link {
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    &.is-disabled {
+      background: rgba(255, 255, 255, 0.05);
+      cursor: not-allowed;
+    }
   }
 }
 
 .list {
-  border: 3px solid #2d5299;
-  padding: 20px;
-  border-radius: 8px;
+  padding: 30px;
+  width: 100%;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .info-card {
-  margin-bottom: 20px;
-  border-radius: 8px;
+  margin-bottom: 30px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
   
   .card-title {
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 20px;
+    font-weight: 600;
     color: #2d5299;
+    padding: 20px;
+    background: linear-gradient(135deg, #f8f9fa, #fff);
+    border-bottom: 1px solid #f0f0f0;
   }
 }
 
 .info-form {
   .form-item {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 12px;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #f0f2f5;
+    }
     
     :deep(.el-form-item__label) {
       font-weight: 500;
-      color: #606266;
+      color: #2d5299;
       font-size: 16px;
     }
   }
 }
 
 .image-container {
-  border-radius: 8px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .image-placeholder {
@@ -315,61 +371,108 @@ init()
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f5f7fa;
+  background: linear-gradient(135deg, #f8f9fa, #f0f2f5);
   color: #909399;
   font-size: 16px;
+  border-radius: 16px;
 }
 
 .info-value {
   color: #303133;
-  line-height: 1.5;
-  font-size: 16px;
-}
-
-.description {
-  background-color: #f8f9fa;
-  padding: 15px;
-  border-radius: 4px;
   line-height: 1.6;
   font-size: 16px;
 }
 
+.description {
+  background: linear-gradient(135deg, #f8f9fa, #fff);
+  padding: 20px;
+  border-radius: 12px;
+  line-height: 1.8;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
 .anscard {
-  margin: 10px 0;
-  padding: 15px;
-  border: 1px solid #ebeef5;
-  border-radius: 8px;
-  transition: all 0.3s;
+  margin: 15px 0;
+  padding: 20px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
   font-size: 16px;
 
   &:hover {
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
   }
 
   .name {
     display: flex;
     align-items: center;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ebeef5;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
     font-size: 16px;
+    gap: 15px;
+
+    .el-avatar {
+      border: 2px solid #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
   }
 
   .comCard {
-    padding: 10px;
+    padding: 15px;
     font-size: 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-top: 10px;
   }
 }
 
-:deep(.el-form-item) {
-  margin-bottom: 0;
+:deep(.el-input) {
+  .el-input__wrapper {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+  }
+}
+
+:deep(.el-button) {
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2d5299, #4a90e2);
+  border: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(45, 82, 153, 0.2);
+  }
+
+  &:disabled {
+    background: #f0f2f5;
+    cursor: not-allowed;
+  }
 }
 
 :deep(.el-link) {
   font-size: 16px;
-}
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 
-:deep(.el-button) {
-  font-size: 16px;
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 .activity-type {
@@ -378,7 +481,7 @@ init()
     font-weight: 600;
     padding: 8px 16px;
     border-radius: 20px;
-    background: #2d5299;
+    background: linear-gradient(135deg, #2d5299, #4a90e2);
     color: white;
     border: none;
     box-shadow: 0 4px 12px rgba(45, 82, 153, 0.3);

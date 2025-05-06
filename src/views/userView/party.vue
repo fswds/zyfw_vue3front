@@ -126,65 +126,198 @@ init()
 <style scoped lang="scss">
 .app {
   margin: 20px;
+  background: #f8f9fa;
+  min-height: calc(100vh - 40px);
+  border-radius: 16px;
+  padding: 20px;
 }
 
 .title {
-  background: #2d5299;
+  background: linear-gradient(135deg, #2d5299, #4a90e2);
   color: #fff;
   text-align: center;
-  padding: 10px;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 16px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 20px rgba(45, 82, 153, 0.2);
+  transition: all 0.3s ease;
 
   &:hover {
     cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(45, 82, 153, 0.3);
   }
 }
 
 .no-list {
-  height: 260px;
-  line-height: 260px;
+  height: 300px;
+  line-height: 300px;
   text-align: center;
-  color: #aaaaaa;
+  color: #666;
   font-size: 20px;
-  border: 3px solid #409eff;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin: 20px 0;
 }
 
-
 .list {
-  border: 3px solid #409eff;
-  padding: 10px;
+  padding: 30px;
+  width: 100%;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .card-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  padding: 10px;
 }
 
 .card {
-  width: 280px;
-  margin: 10px 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  transition: transform 0.3s ease;
+  width: 100%;
+  margin: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: none;
+  border-radius: 16px;
+  transition: all 0.3s ease;
   cursor: pointer;
+  background: #fff;
+  overflow: hidden;
+  position: relative;
 
   &:hover {
-    transform: scale(1.05);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  :deep(.el-card__header) {
+    background: linear-gradient(135deg, #2d5299, #4a90e2);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 20px;
+    border-bottom: none;
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover::after {
+      opacity: 1;
+    }
+  }
+
+  :deep(.el-card__body) {
+    padding: 25px;
+  }
+
+  :deep(.el-card__footer) {
+    padding: 20px;
+    border-top: 1px solid #f0f0f0;
+    background: #f8f9fa;
+  }
+
+  :deep(.el-form-item) {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #f0f2f5;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .el-form-item__label {
+      color: #2d5299;
+      font-weight: 500;
+    }
   }
 
   .desc {
     height: 90px;
     overflow: hidden;
+    line-height: 1.6;
+    color: #666;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #f0f2f5;
+    }
   }
 
   .btns {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 15px;
+
+    .el-link {
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #2d5299, #4a90e2);
+      color: #fff;
+      font-weight: 500;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(45, 82, 153, 0.2);
+      }
+    }
   }
 }
 
-:deep(.el-form-item) {
-  margin-bottom: 0;
+:deep(.el-pagination) {
+  margin-top: 30px;
+  justify-content: center;
+  padding: 20px 0;
+
+  .el-pagination__total,
+  .el-pagination__jump {
+    margin-right: 20px;
+  }
+
+  .btn-prev,
+  .btn-next,
+  .el-pager li {
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #2d5299;
+      color: #fff;
+    }
+
+    &.is-active {
+      background: linear-gradient(135deg, #2d5299, #4a90e2);
+      color: #fff;
+    }
+  }
 }
 </style>

@@ -57,6 +57,7 @@ import {ElMessage} from "element-plus";
 import useUserStore from "@/store/modules/user.js";
 import {addMessage, listMessage} from "@/api/system/message.js";
 import VolSwiper from "@/views/userView/compoents/volSwiper.vue";
+import Pagination from "@/components/Pagination/index.vue";
 
 const {proxy} = getCurrentInstance();
 
@@ -121,71 +122,249 @@ init();
 <style scoped lang="scss">
 .app {
   margin: 20px;
+  background: #f8f9fa;
+  min-height: calc(100vh - 40px);
+  border-radius: 16px;
+  padding: 20px;
 }
 
 .title {
-  background: #2d5299;
+  background: linear-gradient(135deg, #2d5299, #4a90e2);
   color: #fff;
   text-align: center;
-  padding: 10px;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 16px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 20px rgba(45, 82, 153, 0.2);
+  transition: all 0.3s ease;
 
   &:hover {
     cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(45, 82, 153, 0.3);
   }
 }
 
 .no-list {
-  height: 260px;
-  line-height: 260px;
+  height: 300px;
+  line-height: 300px;
   text-align: center;
-  color: #aaaaaa;
+  color: #666;
   font-size: 20px;
-  border: 3px solid #409eff;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin: 20px 0;
 }
 
 .list {
-  border: 3px solid #409eff;
-  padding: 10px;
-  width: 90%;
+  padding: 30px;
+  width: 100%;
   margin: 0 auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
-:deep(.el-form-item) {
-  margin-bottom: 0 !important;
-}
+:deep(.el-input) {
+  .el-input__wrapper {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    transition: all 0.3s ease;
 
-.comCard {
-  border: 1px solid #eeeeee;
-  padding: 10px 20px;
-  border-radius: 8px;
-}
-
-.el-collapse-item {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: translateX(20px);
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
   }
 }
 
-.el-input {
-  width: 80%;
-  margin: 0 auto;
-  transform: translateX(220px);
-  position: relative;
+:deep(.el-button) {
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2d5299, #4a90e2);
+  border: none;
+  transition: all 0.3s ease;
+  height: auto;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(45, 82, 153, 0.2);
+  }
+
+  &:disabled {
+    background: #f0f2f5;
+    cursor: not-allowed;
+  }
 }
 
-.el-button {
-  margin-left: 0;
+:deep(.el-link) {
+  font-size: 16px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2d5299, #4a90e2);
+  color: #fff;
+  font-weight: 500;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(45, 82, 153, 0.2);
+  }
+
+  &:disabled {
+    background: #f0f2f5;
+    cursor: not-allowed;
+  }
+}
+
+:deep(.el-pagination) {
+  margin-top: -5px;
+  justify-content: center;
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .el-pagination__total,
+  .el-pagination__jump {
+    margin-right: 20px;
+    font-size: 16px;
+    color: #606266;
+  }
+
+  .btn-prev,
+  .btn-next,
+  .el-pager li {
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    min-width: 40px;
+    height: 40px;
+    line-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    &:hover {
+      background: #2d5299;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(45, 82, 153, 0.2);
+    }
+
+    &.is-active {
+      background: linear-gradient(135deg, #2d5299, #4a90e2);
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(45, 82, 153, 0.3);
+    }
+
+    &.is-disabled {
+      background: #f0f2f5;
+      color: #c0c4cc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
+  .el-pagination__sizes {
+    margin-right: 20px;
+
+    .el-input__wrapper {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+    }
+  }
+
+  .el-pagination__jump {
+    margin-left: 20px;
+
+    .el-input__wrapper {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+    }
+  }
 }
 
 .el-row {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.comCard {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 15px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #f0f2f5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+}
+
+:deep(.el-collapse) {
+  margin-bottom: 0;
+}
+
+:deep(.el-collapse-item) {
+  background: #fff;
+  border-radius: 12px;
+  margin-bottom: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateX(10px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  .el-collapse-item__header {
+    font-size: 16px;
+    color: #2d5299;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f8f9fa, #fff);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: linear-gradient(135deg, #f0f2f5, #f8f9fa);
+    }
+  }
+
+  .el-collapse-item__content {
+    padding: 15px;
+  }
 }
 </style>

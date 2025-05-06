@@ -55,51 +55,56 @@
         <!--导航-->
         <el-col :span="16">
           <el-row class="mt20" :gutter="20">
-            <el-col :span="8">
-              <div class="nav_card" @click="handlePage(navList[0].route)"
-                   style="background-color: #2b2499;box-shadow: 3px 3px 8px 0 rgba(9,6,9,0.6);">
-                <div class="nav_ti">{{ navList[0].name }}</div>
-                <div class="nav_img">
-                  <img style="height: 60px" src="../../assets/images/wenben.png" alt="wenben"/>
+            <!-- 我的活动 - 大卡片布局 -->
+            <el-col :span="12">
+              <div class="nav_card large-card" @click="handlePage(navList[0].route)">
+                <div class="card-content">
+                  <div class="nav_ti">{{ navList[0].name }}</div>
+                  <div class="nav_img">
+                    <img src="../../assets/images/wenben.png" alt="wenben"/>
+                  </div>
                 </div>
               </div>
             </el-col>
-            <el-col :span="8">
-              <div class="nav_card" @click="handlePage(navList[1].route)"
-                   style="background-color: #07b185;box-shadow: 3px 3px 8px 0 rgb(22,26,27);">
+            
+            <!-- 我的组织 - 横向布局 -->
+            <el-col :span="12">
+              <div class="nav_card horizontal-card" @click="handlePage(navList[1].route)">
+                <div class="nav_img">
+                  <img src="../../assets/images/wenben.png" alt="wenben"/>
+                </div>
                 <div class="nav_ti">{{ navList[1].name }}</div>
-                <div class="nav_img">
-                  <img style="height: 60px" src="../../assets/images/wenben.png" alt="wenben"/>
-                </div>
-              </div>
-            </el-col>
-            <el-col :span="8">
-              <div class="nav_card" @click="handlePage(navList[2].route)"
-                   style="background-color: #fd0808; box-shadow: 3px 3px 8px 0 rgb(13,21,14);">
-                <div class="nav_ti">{{ navList[2].name }}</div>
-                <div class="nav_img">
-                  <img style="height: 60px" src="../../assets/images/wenben.png" alt="wenben"/>
-                </div>
               </div>
             </el-col>
           </el-row>
 
           <el-row class="mt20" :gutter="20">
+            <!-- 签到通知 - 圆形布局 -->
             <el-col :span="8">
-              <div class="nav_card" @click="handlePage(navList[3].route)"
-                   style="background-color: #4aa5c6;box-shadow: 3px 3px 8px 0 rgb(12,11,7);">
+              <div class="nav_card circle-card" @click="handlePage(navList[2].route)">
+                <div class="nav_img">
+                  <img src="../../assets/images/wenben.png" alt="wenben"/>
+                </div>
+                <div class="nav_ti">{{ navList[2].name }}</div>
+              </div>
+            </el-col>
+            
+            <!-- 信息修改 - 垂直布局 -->
+            <el-col :span="8">
+              <div class="nav_card vertical-card" @click="handlePage(navList[3].route)">
                 <div class="nav_ti">{{ navList[3].name }}</div>
                 <div class="nav_img">
-                  <img style="height: 60px" src="../../assets/images/wenben.png" alt="wenben"/>
+                  <img src="../../assets/images/wenben.png" alt="wenben"/>
                 </div>
               </div>
             </el-col>
+            
+            <!-- 投诉反馈 - 斜角布局 -->
             <el-col :span="8">
-              <div class="nav_card" @click="handleComplaint"
-                   style="background-color:rgb(85, 20, 98);box-shadow: 3px 3px 8px 0 rgb(12,11,7);">
+              <div class="nav_card diagonal-card" @click="handleComplaint">
                 <div class="nav_ti">投诉反馈</div>
                 <div class="nav_img">
-                  <img style="height: 60px" src="../../assets/images/wenben.png" alt="wenben"/>
+                  <img src="../../assets/images/wenben.png" alt="wenben"/>
                 </div>
               </div>
             </el-col>
@@ -305,45 +310,381 @@ init()
 }
 
 .title {
-  background: #2d5299;
+  background: linear-gradient(135deg, #2d5299, #4a90e2);
   color: #fff;
   text-align: center;
-  padding: 10px;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(45, 82, 153, 0.2);
+  transition: all 0.3s ease;
 
   &:hover {
     cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(45, 82, 153, 0.3);
   }
 }
 
 .list {
-  border: 3px solid #409eff;
-  padding: 10px;
+  border: none;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 /*导航*/
 
 .nav_card {
-  display: flex;
-  height: 100px;
-  justify-content: space-around;
-  align-items: center;
-  padding: 10px 30px;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
+  position: relative;
+  overflow: hidden;
   cursor: pointer;
-
-  &:hover {
-    transform: scale(1.05);
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
-
+  
+  &:hover {
+    transform: translateY(-5px) rotateX(5deg);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    
+    &::after {
+      opacity: 1;
+    }
+    
+    .nav_img img {
+      transform: translateZ(20px);
+    }
+  }
+  
   .nav_ti {
     color: #ffffff;
-    font-size: 22px;
-    font-weight: bold;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 1;
+    transform: translateZ(10px);
   }
-
+  
   .nav_img {
+    position: relative;
+    z-index: 1;
+    transform-style: preserve-3d;
+    
+    img {
+      transition: all 0.3s ease;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+    }
+  }
+}
 
+/* 大卡片布局 */
+.large-card {
+  height: 200px;
+  background: linear-gradient(135deg, #2b2499, #4a3fdb);
+  padding: 30px;
+  box-shadow: 0 10px 20px rgba(43, 36, 153, 0.3);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1));
+    transform: translateZ(-1px);
+  }
+  
+  .card-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transform-style: preserve-3d;
+  }
+  
+  .nav_ti {
+    font-size: 28px;
+    text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+  
+  .nav_img img {
+    height: 100px;
+    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));
+  }
+}
+
+/* 横向布局 */
+.horizontal-card {
+  height: 200px;
+  background: linear-gradient(135deg, #07b185, #0ce3a7);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 10px 20px rgba(7, 177, 133, 0.3);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1));
+    transform: translateZ(-1px);
+  }
+  
+  .nav_ti {
+    font-size: 24px;
+    flex: 1;
+    text-align: right;
+    padding-right: 20px;
+    text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+  
+  .nav_img img {
+    height: 80px;
+    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));
+  }
+}
+
+/* 圆形布局 */
+.circle-card {
+  height: 180px;
+  background: linear-gradient(135deg, #fd0808, #ff4d4d);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-shadow: 0 10px 20px rgba(253, 8, 8, 0.3);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.1), transparent);
+    border-radius: 50%;
+    transform: translateZ(-1px);
+  }
+  
+  .nav_ti {
+    font-size: 20px;
+    margin-top: 15px;
+    text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+  
+  .nav_img img {
+    height: 70px;
+    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));
+  }
+}
+
+/* 垂直布局 */
+.vertical-card {
+  height: 180px;
+  background: linear-gradient(135deg, #4aa5c6, #6bc8e8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-shadow: 0 10px 20px rgba(74, 165, 198, 0.3);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1));
+    transform: translateZ(-1px);
+  }
+  
+  .nav_ti {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+  
+  .nav_img img {
+    height: 70px;
+    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));
+  }
+}
+
+/* 斜角布局 */
+.diagonal-card {
+  height: 180px;
+  background: linear-gradient(135deg, #551462, #7b1f8f);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(85, 20, 98, 0.3);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: rotate(45deg) translateZ(-1px);
+    transition: all 0.5s ease;
+  }
+  
+  &:hover::before {
+    transform: rotate(45deg) translate(50%, 50%) translateZ(-1px);
+  }
+  
+  .nav_ti {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+  
+  .nav_img {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    
+    img {
+      height: 60px;
+      transform: rotate(-15deg);
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));
+    }
+  }
+}
+
+/* 添加动画效果 */
+@keyframes float {
+  0% { transform: translateY(0px) translateZ(20px); }
+  50% { transform: translateY(-10px) translateZ(30px); }
+  100% { transform: translateY(0px) translateZ(20px); }
+}
+
+.nav_card:hover .nav_img img {
+  animation: float 2s ease-in-out infinite;
+}
+
+/* 美化个人信息卡片 */
+.box-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  }
+  
+  :deep(.el-card__header) {
+    background: linear-gradient(135deg, #2d5299, #4a90e2);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 15px 20px;
+  }
+  
+  .list-group-item {
+    padding: 15px;
+    border-bottom: 1px solid #ebeef5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background-color: #f8f9fa;
+    }
+    
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    .pull-right {
+      &.el-link {
+        color: #2d5299;
+        font-weight: 500;
+        padding: 8px 16px;
+        border-radius: 6px;
+        background: linear-gradient(135deg, #f0f5ff, #e6f0ff);
+        border: 1px solid #2d5299;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, #2d5299, #4a90e2);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          z-index: 0;
+        }
+        
+        &:hover {
+          color: #fff;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(45, 82, 153, 0.2);
+          
+          &::before {
+            opacity: 1;
+          }
+        }
+        
+        span {
+          position: relative;
+          z-index: 1;
+        }
+      }
+    }
+  }
+  
+  .text-center {
+    margin-top: 20px;
+    
+    .el-button {
+      padding: 12px 30px;
+      font-size: 16px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #2d5299, #4a90e2);
+      border: none;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(45, 82, 153, 0.3);
+      }
+    }
   }
 }
 </style>
