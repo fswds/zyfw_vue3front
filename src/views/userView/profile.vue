@@ -329,8 +329,12 @@ init()
   align-items: center;
   padding: 10px 30px;
   border-radius: 8px;
-
+  transition: transform 0.3s ease;
   cursor: pointer;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 
   .nav_ti {
     color: #ffffff;

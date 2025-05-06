@@ -9,7 +9,7 @@
     <!--刷新按钮-->
     <el-row class="mt20 mb20" :gutter="10">
       <el-col :span="20">
-        <el-input v-model="form.conent" placeholder="请输入留言内容"></el-input>
+        <el-input v-model="form.conent" placeholder="请输入留言内容" class="el-input"></el-input>
       </el-col>
       <el-col :span="2">
         <el-button type="danger" @click="addComm">提交</el-button>
@@ -148,6 +148,8 @@ init();
 .list {
   border: 3px solid #409eff;
   padding: 10px;
+  width: 90%;
+  margin: 0 auto;
 }
 
 :deep(.el-form-item) {
@@ -158,5 +160,32 @@ init();
   border: 1px solid #eeeeee;
   padding: 10px 20px;
   border-radius: 8px;
+}
+
+.el-collapse-item {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateX(20px);
+  }
+}
+
+.el-input {
+  width: 80%;
+  margin: 0 auto;
+  transform: translateX(220px);
+  position: relative;
+}
+
+.el-button {
+  margin-left: 0;
+}
+
+.el-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

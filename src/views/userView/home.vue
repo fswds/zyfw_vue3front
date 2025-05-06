@@ -215,10 +215,14 @@ getActList()
   padding: 10px;
   border-bottom: 1px solid #eeeeee;
   color: #333333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease;
 
   &:hover {
     cursor: pointer;
     border-right: 3px solid #ed5565;
+    transform: scale(1.05);
   }
 
   .card-l {
@@ -275,8 +279,13 @@ getActList()
     line-height: 50px;
     cursor: pointer;
     margin-top: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
 
-    &:hover {}
+    &:hover {
+      transform: scale(1.02);
+    }
   }
 
   .label_active {
@@ -286,6 +295,13 @@ getActList()
     line-height: 50px;
     cursor: pointer;
     margin-top: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.02);
+    }
   }
 }
 

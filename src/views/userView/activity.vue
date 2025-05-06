@@ -8,8 +8,15 @@
     <div v-else class="list">
       <div class="card-list">
         <!--卡片-->
-        <el-card class="card" v-for="item in activityList" shadow="never">
-          <template #header>{{ item.activityName }}</template>
+        <el-card class="card" v-for="item in activityList" shadow="never" @click="handlePage(item)">
+          <template #header>
+            <el-tooltip placement="top">
+              <template #content>
+                <div style="width: 220px">{{ item.describe }}</div>
+              </template>
+              <span>{{ item.activityName }}</span>
+            </el-tooltip>
+          </template>
           <el-image style="width: 100%;height: 120px" :src="baseAPI+item.imgs">
             <template #error>
               <div style="text-align: center;color: #aaaaaa;">
@@ -44,8 +51,7 @@
           </el-form>
           <template #footer>
             <div class="btns">
-              <el-link type="primary" :underline="false" @click="handlePage(item)">详情
-              </el-link>
+              <el-link type="primary" :underline="false">详情</el-link>
             </div>
           </template>
         </el-card>
@@ -149,6 +155,14 @@ init()
 .card {
   width: 280px;
   margin: 10px 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 
   .btns {
     display: flex;

@@ -7,7 +7,7 @@
     <div v-if="total<1" class="no-list">暂无数据</div>
     <div v-else class="list">
       <div class="card-list">
-        <el-card class="card" v-for="item in orgList" shadow="never">
+        <el-card class="card" v-for="item in orgList" shadow="never" @click="handlePage(item)">
           <template #header>{{ item.name }}</template>
           <el-form>
             <el-form-item label="组织名称">
@@ -35,9 +35,7 @@
               <!--              <el-link type="primary" :underline="false"-->
               <!--                       @click="handleAdd(item)">加入组织-->
               <!--              </el-link>-->
-              <el-link type="primary" :underline="false"
-                       @click="handlePage(item)">组织详情
-              </el-link>
+              <el-link type="primary" :underline="false">组织详情</el-link>
             </div>
           </template>
         </el-card>
@@ -166,6 +164,14 @@ init()
 .card {
   width: 280px;
   margin: 10px 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 
   .desc {
     height: 90px;
