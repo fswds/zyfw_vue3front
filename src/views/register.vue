@@ -218,20 +218,29 @@ listRoleOption()
   align-items: center;
   height: 100%;
   background-size: cover;
-  background-color: #4AB7BD;
+  background-color:rgb(20, 61, 136);
+  background-image: url('../assets/login/register.jpg');
 }
 
 .title {
   margin: 0px auto 30px auto;
   text-align: center;
-  color: #707070;
+  color: #000;
 }
 
 .register-form {
   border-radius: 6px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.45);
   width: 400px;
   padding: 25px 25px 5px 25px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 
   .el-input {
     height: 40px;

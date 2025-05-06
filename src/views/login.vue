@@ -65,7 +65,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2023 {{ settings.title}} All Rights Reserved.</span>
+      <span>Copyright © 2025 {{ settings.title}} All Rights Reserved.</span>
     </div>
   </div>
 </template>
@@ -184,14 +184,22 @@ getCookie();
 .title {
   margin: 0px auto 30px auto;
   text-align: center;
-  color: #707070;
+  color: #000;
 }
 
 .login-form {
   border-radius: 6px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.45);
   width: 400px;
   padding: 25px 25px 5px 25px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 
   .el-input {
     height: 40px;
